@@ -2,6 +2,8 @@
 
 **A library for charities and CASCs to claim Gift Aid (including Small Donations) from HMRC**
 
+[![Build Status](https://travis-ci.org/JustinBusschau/hmrc-gift-aid.png?branch=master)](https://travis-ci.org/JustinBusschau/hmrc-gift-aid)
+
 'Gift Aid' is a UK tax incentive that enables tax-effective giving by individuals to charities
 in the United Kingdom. Gift Aid increases the value of donations to charities and Community
 Amateur Sports Clubs (CASCs) by allowing them to reclaim basic rate tax on a donor's gift.
