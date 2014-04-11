@@ -1,0 +1,6 @@
+HTTP/1.1 200 OK
+Connection: Keep-Alive
+Content-Length: 791
+Content-Type: text/xml; charset=utf-8
+
+<?xml version="1.0"?><GovTalkMessage xmlns="http://www.govtalk.gov.uk/CM/envelope"><EnvelopeVersion>2.0</EnvelopeVersion><Header><MessageDetails><Class>UndefinedClass</Class><Qualifier>error</Qualifier><Function>submit</Function><TransactionID></TransactionID><CorrelationID></CorrelationID><ResponseEndPoint PollInterval="10">https://secure.dev.gateway.gov.uk/poll</ResponseEndPoint><GatewayTimestamp>2014-04-11T13:25:05.042</GatewayTimestamp></MessageDetails><SenderDetails/></Header><GovTalkDetails><Keys/><GovTalkErrors><Error><RaisedBy>Gateway</RaisedBy><Number>1046</Number><Type>fatal</Type><Text>Authentication Failure. The supplied user credentials failed validation for the requested service.</Text><Location/></Error></GovTalkErrors></GovTalkDetails><Body></Body></GovTalkMessage>

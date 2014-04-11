@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+Connection: Keep-Alive
+Content-Length: 651
+Content-Type: text/xml; charset=utf-8
+
+<?xml version="1.0"?><GovTalkMessage xmlns="http://www.govtalk.gov.uk/CM/envelope"><EnvelopeVersion>2.0</EnvelopeVersion><Header><MessageDetails><Class>HMRC-CHAR-CLM</Class><Qualifier>response</Qualifier><Function>submit</Function><TransactionID>139724696754409600</TransactionID><CorrelationID>0B2676DE67004EEFB75F71B3011BEA3D</CorrelationID><ResponseEndPoint PollInterval="10">https://secure.dev.gateway.gov.uk/poll</ResponseEndPoint><Transformation>XML</Transformation><GatewayTimestamp>2014-04-11T20:09:52.192</GatewayTimestamp></MessageDetails><SenderDetails /></Header><GovTalkDetails><Keys /></GovTalkDetails><Body>
+
+  </Body>
+</GovTalkMessage>

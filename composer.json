@@ -1,0 +1,35 @@
+{
+    "name": "justinbusschau/hmrc-gift-aid",
+    "type": "library",
+    "description": "A library for charities and CASCs to claim Gift Aid (including Small Donations) from HMRC",
+    "homepage": "https://github.com/justinbusschau/hmrc-gift-aid",
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Jonathon Wardman - Fubra Limited",
+            "homepage": "http://www.fubra.com/"
+        },
+        {
+            "name": "Long Luong - Veda Consulting",
+            "email": "long@vedaconsulting.co.uk",
+            "homepage": "http://www.vedaconsulting.co.uk/uk-hrmc-gift-aid-online-submission/"
+        },
+        {
+            "name": "Justin Busschau",
+            "email": "justin.busschau@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": { "GovTalk\\GiftAid\\" : "src/" }
+    },
+    "require": {
+        "php": ">=5.3.2",
+        "justinbusschau/php-govtalk": "~0.1"
+    },
+    "require-dev": {
+        "guzzle/plugin-mock": "~3.1",
+        "mockery/mockery": "~0.8",
+        "phpunit/phpunit": "~3.7.16",
+        "squizlabs/php_codesniffer": "~1.4"
+    }
+}
