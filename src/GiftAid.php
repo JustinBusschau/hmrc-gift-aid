@@ -617,7 +617,7 @@ class GiftAid extends GovTalk
         $package->setIndent(true);
 
         $package->startElement('IRenvelope');
-        $package->writeAttribute('xmlns', 'http://www.govtalk.gov.uk/taxation/charities/r68/1');
+        $package->writeAttribute('xmlns', 'http://www.govtalk.gov.uk/taxation/charities/r68/2');
 
         $package->startElement('IRheader');
         $package->startElement('Keys');
