@@ -91,6 +91,7 @@ class GiftAidTest extends TestCase
                 'last_name' => 'Smith',
                 'house_no' => '100',
                 'postcode' => 'AB23 4CD',
+                'overseas' => false,
                 'amount' => 500.00,
                 'sponsored' => true
             ),
@@ -99,8 +100,9 @@ class GiftAidTest extends TestCase
                 'title' => null,
                 'first_name' => 'Jim',
                 'last_name' => 'Harris',
-                'house_no' => '25 High St Anytown Farmshire',
+                'house_no' => '25 High St Anytown Foreignshire',
                 'postcode' => null,
+                'overseas' => true,
                 'amount' => 10.00
             ),
             array(
@@ -110,6 +112,7 @@ class GiftAidTest extends TestCase
                 'last_name' => 'Hill-Jones',
                 'house_no' => '1',
                 'postcode' => 'BA23 9CD',
+                'overseas' => false,
                 'amount' => 2.50
             ),
             array(
@@ -119,12 +122,13 @@ class GiftAidTest extends TestCase
                 'last_name' => 'Hill-Jones',
                 'house_no' => '1',
                 'postcode' => 'BA23 9CD',
+                'overseas' => false,
                 'amount' => 12.00
             ),
             array(
                 'donation_date' => '2013-04-20',
                 'amount' => 1000.00,
-                'aggregation' => 'Aggregated donation of 200 x £5 payments from members'
+                'aggregation' => 'Aggregated donation of 200 x ï¿½5 payments from members'
             )
         );
 

@@ -20,7 +20,7 @@
         }
     ],
     "autoload": {
-        "psr-0": { "GovTalk\\GiftAid\\" : "src/" }
+        "psr-4": { "GovTalk\\GiftAid\\" : "src/" }
     },
     "require": {
         "php": ">=5.3.2",

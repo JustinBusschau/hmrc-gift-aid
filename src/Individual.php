@@ -13,21 +13,23 @@ namespace GovTalk\GiftAid;
 
 class Individual
 {
-    private $title = '';
-    private $surname = '';
-    private $forename = '';
-    private $phone = '';
-    private $houseNum = '';
-    private $postcode = '';
+    private $title      = '';
+    private $surname    = '';
+    private $forename   = '';
+    private $phone      = '';
+    private $houseNum   = '';
+    private $postcode   = '';
+    private $isOverseas = false;
 
-    public function __construct($title, $name, $surname, $phone, $houseNum, $postcode)
+    public function __construct($title, $name, $surname, $phone, $houseNum, $postcode, $overseas = false)
     {
-        $this->title = $title;
-        $this->surname = $surname;
-        $this->forename = $name;
-        $this->phone = $phone;
-        $this->houseNum = $houseNum;
-        $this->postcode = $postcode;
+        $this->title      = $title;
+        $this->surname    = $surname;
+        $this->forename   = $name;
+        $this->phone      = $phone;
+        $this->houseNum   = $houseNum;
+        $this->postcode   = $postcode;
+        $this->isOverseas = $overseas;
     }
 
     public function getTitle()
@@ -88,5 +90,15 @@ class Individual
     public function setPostcode($value)
     {
         $this->postcode = $value;
+    }
+
+    public function getIsOverseas()
+    {
+        return ($this->isOverseas === true) ? 'yes' : 'no';
+    }
+
+    public function setIsOverseas($value)
+    {
+        $this->isOverseas = $value;
     }
 }
