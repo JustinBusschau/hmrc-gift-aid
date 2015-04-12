@@ -489,19 +489,13 @@ class GiftAid extends GovTalk
                 $house    = $person->getHouseNum();
                 $postcode = $person->getPostcode();
 
-                if (!empty($title)) {
+                if ( ! empty($title)) {
                     $package->writeElement('Ttl', $title);
                 }
-                if (!empty($fore)) {
-                    $package->writeElement('Fore', $fore);
-                }
-                if (!empty($sur)) {
-                    $package->writeElement('Sur', $sur);
-                }
-                if (!empty($house)) {
-                    $package->writeElement('House', $house);
-                }
-                if (!empty($postcode)) {
+                $package->writeElement('Fore', $fore);
+                $package->writeElement('Sur', $sur);
+                $package->writeElement('House', $house);
+                if ( ! empty($postcode)) {
                     $package->writeElement('Postcode', $postcode);
                 }
                 $package->endElement(); # Donor
