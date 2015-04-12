@@ -22,11 +22,11 @@ use GovTalk\GiftAid\AuthorisedOfficial;
  * HMRC Gift Aid API client.  Extends the functionality provided by the
  * GovTalk class to build and parse HMRC Gift Aid submissions.
  *
- * @author Long Luong
+ * @author    Long Luong
  * @copyright 2013, Veda Consulting Limited
  * @licence http://www.gnu.org/licenses/gpl-3.0.txt GNU General Public License
  *
- * @author Justin Busschau
+ * @author    Justin Busschau
  * @copyright 2013 - 2014, Justin Busschau
  * Refactored as PSR-2 for inclusion in justinbusschau/php-govtalk package.
  */
@@ -37,7 +37,7 @@ class GiftAid extends GovTalk
     /**
      * Endpoints - One for test/dev and one for the live environment
      */
-    private $devEndpoint = 'https://secure.dev.gateway.gov.uk/submission';
+    private $devEndpoint  = 'https://secure.dev.gateway.gov.uk/submission';
     private $liveEndpoint = 'https://secure.gateway.gov.uk/submission';
 
     /**
@@ -75,7 +75,6 @@ class GiftAid extends GovTalk
      */
     private $agentDetails = array();
 
-
     /* System / internal variables. */
 
     /**
@@ -85,15 +84,13 @@ class GiftAid extends GovTalk
      */
     private $generateIRmark = true;
 
-
     /* Variables for storing claim details */
-
 
     /**
      * Adjustments
      */
     private $gaAdjustment = 0.00;
-    private $gaAdjReason = '';
+    private $gaAdjReason  = '';
 
     /**
      * Connected charities
@@ -124,34 +121,34 @@ class GiftAid extends GovTalk
     /**
      * Details of the Community buildings used
      */
-    private $haveCbcd = false;
-    private $cbcdBldg = array();
-    private $cbcdAddr = array();
-    private $cbcdPoCo = array();
-    private $cbcdYear = array();
+    private $haveCbcd   = false;
+    private $cbcdBldg   = array();
+    private $cbcdAddr   = array();
+    private $cbcdPoCo   = array();
+    private $cbcdYear   = array();
     private $cbcdAmount = array();
 
     /**
      * Details for claims relating to the Small Donations Scheme
      */
-    private $haveGasds = false;
-    private $gasdsYear = array();
-    private $gasdsAmount = array();
+    private $haveGasds       = false;
+    private $gasdsYear       = array();
+    private $gasdsAmount     = array();
     private $gasdsAdjustment = 0.00;
-    private $gasdsAdjReason = '';
+    private $gasdsAdjReason  = '';
 
     /**
      * The class is instantiated with the 'SenderID' and password issued to the
      * claiming charity by HMRC. Also we need to know whether messages for
      * this session are to be sent to the test or live environment
      *
-     * @param $sender_id The govTalk Sender ID as provided by HMRC
-     * @param $password The govTalk password as provided by HMRC
-     * @param $route_uri The URI of the owner of the process generating this route entry.
-     * @param $software_name The name of the software generating this route entry.
-     * @param $software_version The version number of the software generating this route entry.
-     * @param $test TRUE if in test mode, else (default) FALSE
-     * @param $httpClient The Guzzle HTTP Client to use for connections to the endpoint - null for default
+     * @param $sender_id          The govTalk Sender ID as provided by HMRC
+     * @param $password           The govTalk password as provided by HMRC
+     * @param $route_uri          The URI of the owner of the process generating this route entry.
+     * @param $software_name      The name of the software generating this route entry.
+     * @param $software_version   The version number of the software generating this route entry.
+     * @param $test               TRUE if in test mode, else (default) FALSE
+     * @param $httpClient         The Guzzle HTTP Client to use for connections to the endpoint - null for default
      * @param $messageLogLocation Where to log messages - null for no logging
      */
     public function __construct(
@@ -186,6 +183,7 @@ class GiftAid extends GovTalk
 
     /**
      * Find out which endpoint to use
+     *
      * @param $test TRUE if in test mode, else (default) FALSE
      */
     public function getEndpoint($test = false)
@@ -200,7 +198,7 @@ class GiftAid extends GovTalk
      */
     public function getCharityId()
     {
-        if (!is_null($this->getClaimingOrganisation())) {
+        if ( ! is_null($this->getClaimingOrganisation())) {
             return $this->getClaimingOrganisation()->getHmrcRef();
         } else {
             return false;
@@ -260,13 +258,13 @@ class GiftAid extends GovTalk
     public function clearGaAdjustment()
     {
         $this->gaAdjustment = 0.00;
-        $this->gaAdjReason = '';
+        $this->gaAdjReason  = '';
     }
 
     public function setGaAdjustment($amount, $reason)
     {
         $this->gaAdjustment = $amount;
-        $this->gaAdjReason = $reason;
+        $this->gaAdjReason  = $reason;
     }
 
     public function getGaAdjustment()
@@ -348,42 +346,42 @@ class GiftAid extends GovTalk
 
     public function addCbcd($bldg, $address, $postcode, $year, $amount)
     {
-        $this->haveCbcd = true;
-        $this->cbcdBldg[] = $bldg;
-        $this->cbcdAddr[] = $address;
-        $this->cbcdPoCo[] = $postcode;
-        $this->cbcdYear[] = $year;
+        $this->haveCbcd     = true;
+        $this->cbcdBldg[]   = $bldg;
+        $this->cbcdAddr[]   = $address;
+        $this->cbcdPoCo[]   = $postcode;
+        $this->cbcdYear[]   = $year;
         $this->cbcdAmount[] = $amount;
     }
 
     public function resetCbcd()
     {
-        $this->haveCbcd = false;
-        $this->cbcdBldg = array();
-        $this->cbcdAddr = array();
-        $this->cbcdPoCo = array();
-        $this->cbcdYear = array();
+        $this->haveCbcd   = false;
+        $this->cbcdBldg   = array();
+        $this->cbcdAddr   = array();
+        $this->cbcdPoCo   = array();
+        $this->cbcdYear   = array();
         $this->cbcdAmount = array();
     }
 
     public function addGasds($year, $amount)
     {
-        $this->haveGasds = true;
-        $this->gasdsYear[] = $year;
+        $this->haveGasds     = true;
+        $this->gasdsYear[]   = $year;
         $this->gasdsAmount[] = $amount;
     }
 
     public function resetGasds()
     {
-        $this->haveGasds = false;
-        $this->gasdsYear = array();
+        $this->haveGasds   = false;
+        $this->gasdsYear   = array();
         $this->gasdsAmount = array();
     }
 
     public function setGasdsAdjustment($amount, $reason)
     {
         $this->gasdsAdjustment = $amount;
-        $this->gasdsAdjReason = $reason;
+        $this->gasdsAdjReason  = $reason;
     }
 
     public function getGasdsAdjustment()
@@ -408,9 +406,9 @@ class GiftAid extends GovTalk
      *   telephone => Contact's telephone number (optional).
      *   fax => Contact's fax number (optional).
      *
-     * @param string $company The agent company's name.
-     * @param array $address The agent company's address in the format specified above.
-     * @param array $contact The agent company's key contact (optional, may be skipped with a null value).
+     * @param string $company   The agent company's name.
+     * @param array  $address   The agent company's address in the format specified above.
+     * @param array  $contact   The agent company's key contact (optional, may be skipped with a null value).
      * @param string $reference An identifier for the agent's own reference (optional).
      */
     public function setAgentDetails($company, array $address, array $contact = null, $reference = null)
@@ -418,7 +416,7 @@ class GiftAid extends GovTalk
         if (preg_match('/[A-Za-z0-9 &\'\(\)\*,\-\.\/]*/', $company)) {
             $this->agentDetails['company'] = $company;
             $this->agentDetails['address'] = $address;
-            if (!isset($this->agentDetails['address']['country'])) {
+            if ( ! isset($this->agentDetails['address']['country'])) {
                 $this->agentDetails['address']['country'] = 'England';
             }
             if ($contact !== null) {
@@ -469,11 +467,11 @@ class GiftAid extends GovTalk
         $earliestDate = strtotime(date('Y-m-d'));
         foreach ($donor_data as $d) {
             if (isset($d['donation_date'])) {
-                $dDate = strtotime($d['donation_date']);
+                $dDate        = strtotime($d['donation_date']);
                 $earliestDate = ($dDate < $earliestDate) ? $dDate : $earliestDate;
             }
             $package->startElement('GAD');
-            if (!isset($d['aggregation']) or empty($d['aggregation'])) {
+            if ( ! isset($d['aggregation']) or empty($d['aggregation'])) {
                 $package->startElement('Donor');
                 $person = new Individual(
                     $d['title'],
@@ -485,10 +483,10 @@ class GiftAid extends GovTalk
                     (bool) $d['overseas']
                 );
 
-                $title = $person->getTitle();
-                $fore = $person->getForename();
-                $sur = $person->getSurname();
-                $house = $person->getHouseNum();
+                $title    = $person->getTitle();
+                $fore     = $person->getForename();
+                $sur      = $person->getSurname();
+                $house    = $person->getHouseNum();
                 $postcode = $person->getPostcode();
 
                 if (!empty($title)) {
@@ -507,7 +505,7 @@ class GiftAid extends GovTalk
                     $package->writeElement('Postcode', $postcode);
                 }
                 $package->endElement(); # Donor
-            } elseif (!empty($d['aggregation'])) {
+            } elseif ( ! empty($d['aggregation'])) {
                 $package->writeElement('AggDonation', $d['aggregation']);
             }
             if (isset($d['sponsored']) and $d['sponsored'] === true) {
@@ -519,7 +517,7 @@ class GiftAid extends GovTalk
         }
         $package->writeElement('EarliestGAdate', date('Y-m-d', $earliestDate));
 
-        if (!empty($this->gaAdjustment)) {
+        if ( ! empty($this->gaAdjustment)) {
             $package->writeElement('Adjustment', number_format($this->gaAdjustment, 2, '.', ''));
         }
         $package->endElement(); # Repayment
@@ -555,17 +553,17 @@ class GiftAid extends GovTalk
             $package->endElement(); # Building
         }
 
-        if (!empty($this->gasdsAdjustment)) {
+        if ( ! empty($this->gasdsAdjustment)) {
             $package->writeElement('Adj', number_format($this->gasdsAdjustment, 2, '.', ''));
         }
 
         $package->endElement(); # GASDS
 
         $otherInfo = array();
-        if (!empty($this->gasdsAdjustment)) {
+        if ( ! empty($this->gasdsAdjustment)) {
             $otherInfo[] = $this->gasdsAdjReason;
         }
-        if (!empty($this->gaAdjustment)) {
+        if ( ! empty($this->gaAdjustment)) {
             $otherInfo[] = $this->gaAdjReason;
         }
         if (count($otherInfo) > 0) {
@@ -584,14 +582,14 @@ class GiftAid extends GovTalk
      */
     public function giftAidSubmit($donor_data)
     {
-        $cChardId              = $this->getClaimingOrganisation()->getHmrcRef();
-        $cOrganisation         = 'IR';
+        $cChardId      = $this->getClaimingOrganisation()->getHmrcRef();
+        $cOrganisation = 'IR';
 
-        $dReturnPeriod         = $this->getClaimToDate();
+        $dReturnPeriod = $this->getClaimToDate();
 
-        $sDefaultCurrency      = 'GBP'; // currently HMRC only allows GBP
-        $sIRmark               = 'IRmark+Token';
-        $sSender               = 'Individual';
+        $sDefaultCurrency = 'GBP'; // currently HMRC only allows GBP
+        $sIRmark          = 'IRmark+Token';
+        $sSender          = 'Individual';
 
         if ($this->getAuthorisedOfficial() == null) {
             return false;
@@ -641,7 +639,7 @@ class GiftAid extends GovTalk
         $package->startElement('AuthOfficial');
         $package->startElement('OffName');
         $title = $this->getAuthorisedOfficial()->getTitle();
-        if (!empty($title)) {
+        if ( ! empty($title)) {
             $package->writeElement('Ttl', $title);
         }
         $package->writeElement('Fore', $this->getAuthorisedOfficial()->getForename());
@@ -671,13 +669,14 @@ class GiftAid extends GovTalk
         $this->setMessageBody($package);
 
         if ($this->sendMessage() && ($this->responseHasErrors() === false)) {
-            $returnable = $this->getResponseEndpoint();
+            $returnable                  = $this->getResponseEndpoint();
             $returnable['correlationid'] = $this->getResponseCorrelationId();
         } else {
             $returnable = array('errors' => $this->getResponseErrors());
         }
-        $returnable['claim_data_xml'] = $claimDataXml;
+        $returnable['claim_data_xml']     = $claimDataXml;
         $returnable['submission_request'] = $this->fullRequestString;
+
         return $returnable;
     }
 
@@ -709,7 +708,7 @@ class GiftAid extends GovTalk
             foreach ($this->fullResponseObject->Body->StatusReport->StatusRecord as $node) {
                 $array = array();
                 foreach ($node->children() as $child) {
-                    $array[$child->getName()] = (string)$child;
+                    $array[$child->getName()] = (string) $child;
                 }
                 $returnable['statusRecords'][] = $array;
             }
@@ -717,6 +716,7 @@ class GiftAid extends GovTalk
             $returnable = array('errors' => $this->getResponseErrors());
         }
         $returnable['submission_request'] = $this->fullRequestString;
+
         return $returnable;
     }
 
@@ -749,7 +749,8 @@ class GiftAid extends GovTalk
      *      additional => additional information relating to this payment.
      *
      * @param string $correlationId The correlation ID of the resource to poll. Can be skipped with a null value.
-     * @param string $pollUrl The URL of the Gateway to poll.
+     * @param string $pollUrl       The URL of the Gateway to poll.
+     *
      * @return mixed An array of details relating to the return and the original request, or false on failure.
      */
     public function declarationResponsePoll($correlationId = null, $pollUrl = null)
@@ -772,15 +773,16 @@ class GiftAid extends GovTalk
                 $messageQualifier = (string) $this->fullResponseObject->Header->MessageDetails->Qualifier;
                 if ($messageQualifier == 'response') {
                     return array(
-                        'correlationid' => $correlationId,
-                        'submission_request' => $this->fullRequestString,
+                        'correlationid'       => $correlationId,
+                        'submission_request'  => $this->fullRequestString,
                         'submission_response' => $this->fullResponseString
                     );
 
                 } elseif ($messageQualifier == 'acknowledgement') {
-                    $returnable = $this->getResponseEndpoint();
-                    $returnable['correlationid'] = $this->getResponseCorrelationId();
+                    $returnable                       = $this->getResponseEndpoint();
+                    $returnable['correlationid']      = $this->getResponseCorrelationId();
                     $returnable['submission_request'] = $this->fullRequestString;
+
                     return $returnable;
                 } else {
                     return false;
@@ -788,10 +790,11 @@ class GiftAid extends GovTalk
             } else {
                 if ($this->responseHasErrors()) {
                     return array(
-                        'errors' => $this->getResponseErrors(),
+                        'errors'             => $this->getResponseErrors(),
                         'fullResponseString' => $this->fullResponseString
                     );
                 }
+
                 return false;
             }
         } else {
@@ -806,11 +809,12 @@ class GiftAid extends GovTalk
      * php-govtalk class.
      *
      * @param string $package The package to add the IRmark to.
+     *
      * @return string The new package after addition of the IRmark.
      */
     protected function packageDigest($package)
     {
-        $packageSimpleXML = simplexml_load_string($package);
+        $packageSimpleXML  = simplexml_load_string($package);
         $packageNamespaces = $packageSimpleXML->getNamespaces();
 
         $body = $packageSimpleXML->xpath('GovTalkMessage/Body');
@@ -818,7 +822,7 @@ class GiftAid extends GovTalk
         preg_match('#<Body>(.*)<\/Body>#su', $packageSimpleXML->asXML(), $matches);
         $packageBody = $matches[1];
 
-        $irMark = base64_encode($this->generateIRMark($packageBody, $packageNamespaces));
+        $irMark  = base64_encode($this->generateIRMark($packageBody, $packageNamespaces));
         $package = str_replace('IRmark+Token', $irMark, $package);
 
         return $package;
@@ -831,6 +835,7 @@ class GiftAid extends GovTalk
      * function will fail.
      *
      * @param $xmlString string The XML to generate the IRmark hash from.
+     *
      * @return string The IRmark hash.
      */
     private function generateIRMark($xmlString, $namespaces = null)
@@ -840,7 +845,7 @@ class GiftAid extends GovTalk
                 '/<(vat:)?IRmark Type="generic">[A-Za-z0-9\/\+=]*<\/(vat:)?IRmark>/',
                 '',
                 $xmlString,
-                -1,
+                - 1,
                 $matchCount
             );
             if ($matchCount == 1) {
@@ -850,14 +855,14 @@ class GiftAid extends GovTalk
                     $namespaceString = array();
                     foreach ($namespaces as $key => $value) {
                         if ($key !== '') {
-                            $namespaceString[] = 'xmlns:'.$key.'="'.$value.'"';
+                            $namespaceString[] = 'xmlns:' . $key . '="' . $value . '"';
                         } else {
-                            $namespaceString[] = 'xmlns="'.$value.'"';
+                            $namespaceString[] = 'xmlns="' . $value . '"';
                         }
                     }
-                    $bodyCompiled = '<Body '.implode(' ', $namespaceString).'>'.$xmlString.'</Body>';
+                    $bodyCompiled = '<Body ' . implode(' ', $namespaceString) . '>' . $xmlString . '</Body>';
                 } else {
-                    $bodyCompiled = '<Body>'.$xmlString.'</Body>';
+                    $bodyCompiled = '<Body>' . $xmlString . '</Body>';
                 }
                 $xmlDom->loadXML($bodyCompiled);
 
@@ -887,12 +892,12 @@ class GiftAid extends GovTalk
             }
         }
 
-        if (!$has_gt_errors) {
+        if ( ! $has_gt_errors) {
             // lay out the GA errors
             foreach ($this->fullResponseObject->Body->ErrorResponse->Error as $gaError) {
                 $govTalkErrors['business'][] = array(
-                    'number' => (string) $gaError->Number,
-                    'text' => (string) $gaError->Text,
+                    'number'   => (string) $gaError->Number,
+                    'text'     => (string) $gaError->Text,
                     'location' => (string) $gaError->Location
                 );
             }
