@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/JustinBusschau/hmrc-gift-aid.png?branch=master)](https://travis-ci.org/JustinBusschau/hmrc-gift-aid)
 [![Latest Stable Version](https://poser.pugx.org/justinbusschau/hmrc-gift-aid/version.png)](https://packagist.org/packages/justinbusschau/hmrc-gift-aid)
 [![Total Downloads](https://poser.pugx.org/justinbusschau/hmrc-gift-aid/d/total.png)](https://packagist.org/packages/justinbusschau/hmrc-gift-aid)
+[![License](https://poser.pugx.org/justinbusschau/hmrc-gift-aid/license.svg)](https://packagist.org/packages/justinbusschau/hmrc-gift-aid)
 
 'Gift Aid' is a UK tax incentive that enables tax-effective giving by individuals to charities
 in the United Kingdom. Gift Aid increases the value of donations to charities and Community
