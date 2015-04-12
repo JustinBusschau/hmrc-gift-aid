@@ -488,6 +488,7 @@ class GiftAid extends GovTalk
                 $sur      = $person->getSurname();
                 $house    = $person->getHouseNum();
                 $postcode = $person->getPostcode();
+                $overseas = $person->getIsOverseas();
 
                 if ( ! empty($title)) {
                     $package->writeElement('Ttl', $title);
@@ -497,6 +498,8 @@ class GiftAid extends GovTalk
                 $package->writeElement('House', $house);
                 if ( ! empty($postcode)) {
                     $package->writeElement('Postcode', $postcode);
+                } else {
+                    $package->writeElement('Overseas', $overseas);
                 }
                 $package->endElement(); # Donor
             } elseif ( ! empty($d['aggregation'])) {
