@@ -442,7 +442,8 @@ class GiftAid extends GovTalk
      * 'first_name',
      * 'last_name',
      * 'house_no',
-     * 'postcode',
+     * 'postcode', - must be a uk postcode for any uk address
+     * 'overseas', - must be true if no postcode provided
      * 'sponsored' - set to true if this money is for a sponsored event
      * 'aggregation' - description of aggregated donations - else leave empty
      * 'amount'
@@ -480,7 +481,8 @@ class GiftAid extends GovTalk
                     $d['last_name'],
                     '',
                     $d['house_no'],
-                    $d['postcode']
+                    $d['postcode'],
+                    (bool) $d['overseas']
                 );
 
                 $title = $person->getTitle();
