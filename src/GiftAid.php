@@ -198,7 +198,7 @@ class GiftAid extends GovTalk
      */
     public function getCharityId()
     {
-        if ( ! is_null($this->getClaimingOrganisation())) {
+        if (!is_null($this->getClaimingOrganisation())) {
             return $this->getClaimingOrganisation()->getHmrcRef();
         } else {
             return false;
@@ -416,7 +416,7 @@ class GiftAid extends GovTalk
         if (preg_match('/[A-Za-z0-9 &\'\(\)\*,\-\.\/]*/', $company)) {
             $this->agentDetails['company'] = $company;
             $this->agentDetails['address'] = $address;
-            if ( ! isset($this->agentDetails['address']['country'])) {
+            if (!isset($this->agentDetails['address']['country'])) {
                 $this->agentDetails['address']['country'] = 'England';
             }
             if ($contact !== null) {
@@ -471,7 +471,7 @@ class GiftAid extends GovTalk
                 $earliestDate = ($dDate < $earliestDate) ? $dDate : $earliestDate;
             }
             $package->startElement('GAD');
-            if ( ! isset($d['aggregation']) or empty($d['aggregation'])) {
+            if (!isset($d['aggregation']) or empty($d['aggregation'])) {
                 $package->startElement('Donor');
                 $person = new Individual(
                     $d['title'],
@@ -490,19 +490,19 @@ class GiftAid extends GovTalk
                 $postcode = $person->getPostcode();
                 $overseas = $person->getIsOverseas();
 
-                if ( ! empty($title)) {
+                if (!empty($title)) {
                     $package->writeElement('Ttl', $title);
                 }
                 $package->writeElement('Fore', $fore);
                 $package->writeElement('Sur', $sur);
                 $package->writeElement('House', $house);
-                if ( ! empty($postcode)) {
+                if (!empty($postcode)) {
                     $package->writeElement('Postcode', $postcode);
                 } else {
                     $package->writeElement('Overseas', $overseas);
                 }
                 $package->endElement(); # Donor
-            } elseif ( ! empty($d['aggregation'])) {
+            } elseif (!empty($d['aggregation'])) {
                 $package->writeElement('AggDonation', $d['aggregation']);
             }
             if (isset($d['sponsored']) and $d['sponsored'] === true) {
@@ -514,7 +514,7 @@ class GiftAid extends GovTalk
         }
         $package->writeElement('EarliestGAdate', date('Y-m-d', $earliestDate));
 
-        if ( ! empty($this->gaAdjustment)) {
+        if (!empty($this->gaAdjustment)) {
             $package->writeElement('Adjustment', number_format($this->gaAdjustment, 2, '.', ''));
         }
         $package->endElement(); # Repayment
@@ -550,17 +550,17 @@ class GiftAid extends GovTalk
             $package->endElement(); # Building
         }
 
-        if ( ! empty($this->gasdsAdjustment)) {
+        if (!empty($this->gasdsAdjustment)) {
             $package->writeElement('Adj', number_format($this->gasdsAdjustment, 2, '.', ''));
         }
 
         $package->endElement(); # GASDS
 
         $otherInfo = array();
-        if ( ! empty($this->gasdsAdjustment)) {
+        if (!empty($this->gasdsAdjustment)) {
             $otherInfo[] = $this->gasdsAdjReason;
         }
-        if ( ! empty($this->gaAdjustment)) {
+        if (!empty($this->gaAdjustment)) {
             $otherInfo[] = $this->gaAdjReason;
         }
         if (count($otherInfo) > 0) {
@@ -636,7 +636,7 @@ class GiftAid extends GovTalk
         $package->startElement('AuthOfficial');
         $package->startElement('OffName');
         $title = $this->getAuthorisedOfficial()->getTitle();
-        if ( ! empty($title)) {
+        if (!empty($title)) {
             $package->writeElement('Ttl', $title);
         }
         $package->writeElement('Fore', $this->getAuthorisedOfficial()->getForename());
@@ -889,7 +889,7 @@ class GiftAid extends GovTalk
             }
         }
 
-        if ( ! $has_gt_errors) {
+        if (!$has_gt_errors) {
             // lay out the GA errors
             foreach ($this->fullResponseObject->Body->ErrorResponse->Error as $gaError) {
                 $govTalkErrors['business'][] = array(
