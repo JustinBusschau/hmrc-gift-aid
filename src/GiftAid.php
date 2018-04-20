@@ -37,8 +37,8 @@ class GiftAid extends GovTalk
     /**
      * Endpoints - One for test/dev and one for the live environment
      */
-    private $devEndpoint  = 'https://secure.dev.gateway.gov.uk/submission';
-    private $liveEndpoint = 'https://secure.gateway.gov.uk/submission';
+    private $devEndpoint  = 'https://test-transaction-engine.tax.service.gov.uk/submission';
+    private $liveEndpoint = 'https://transaction-engine.tax.service.gov.uk/submission';
 
     /**
      * Vendor ID of software vendor
