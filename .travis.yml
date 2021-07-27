@@ -1,13 +1,12 @@
 language: php
 
 php:
- - "5.6"
- - "7.0"
- - "7.1"
+ - "7.4"
+ - "8.0"
 
 before_script:
  - composer self-update
  - composer --version
  - composer install -n --dev --prefer-source
 
-script: vendor/bin/phpcs --standard=PSR2 src && vendor/bin/phpunit --coverage-text
+script: composer run lint:check && composer run test

@@ -11,12 +11,10 @@
 
 namespace GovTalk\GiftAid;
 
-use XMLWriter;
 use DOMDocument;
-use Guzzle\Http\ClientInterface;
+use GuzzleHttp\Client;
 use GovTalk\GovTalk;
-use GovTalk\GiftAid\Individual;
-use GovTalk\GiftAid\AuthorisedOfficial;
+use XMLWriter;
 
 /**
  * HMRC Gift Aid API client.  Extends the functionality provided by the
@@ -158,7 +156,7 @@ class GiftAid extends GovTalk
         $software_name,
         $software_version,
         $test = false,
-        ClientInterface $httpClient = null,
+        ?Client $httpClient = null,
         $messageLogLocation = null
     ) {
         $test = is_bool($test) ? $test : false;
@@ -774,7 +772,6 @@ class GiftAid extends GovTalk
                         'submission_request'  => $this->fullRequestString,
                         'submission_response' => $this->fullResponseString
                     );
-
                 } elseif ($messageQualifier == 'acknowledgement') {
                     $returnable                       = $this->getResponseEndpoint();
                     $returnable['correlationid']      = $this->getResponseCorrelationId();

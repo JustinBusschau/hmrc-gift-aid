@@ -11,44 +11,45 @@
 
 namespace GovTalk\GiftAid;
 
-use PHPUnit_Framework_TestCase;
-use ReflectionObject;
-use Guzzle\Common\Event;
-use Guzzle\Http\Client as HttpClient;
-use Guzzle\Http\Message\RequestInterface as GuzzleRequestInterface;
-use Guzzle\Plugin\Mock\MockPlugin;
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
 
 /**
  * The Base class for all tests
  */
-abstract class TestCase extends PHPUnit_Framework_TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
-    private $httpClient;
+    private ?Client $httpClient = null;
 
     /**
      * Create an instance of the Guzzle HTTP Client that we can
      * throw mocked responses into.
      */
-    public function getHttpClient()
+    public function getHttpClient(): Client
     {
         if ($this->httpClient === null) {
-            $this->httpClient = new HttpClient;
+            $this->httpClient = new Client();
         }
 
         return $this->httpClient;
     }
 
     /**
-     * Mark a request as being mocked
+     * Set a mock response from a mock file for the next client request.
      *
-     * @param GuzzleRequestInterface $request
-     * @return self
+     * @param string  $path Path to the mock response file
+     *
+     * @link https://docs.guzzlephp.org/en/stable/testing.html#mock-handler
      */
-    public function addMockedHttpRequest(GuzzleRequestInterface $request)
+    public function setMockHttpResponse(string $path): void
     {
-        $this->mockHttpRequests[] = $request;
-
-        return $this;
+        $mock = new MockHandler([
+            $this->getMockHttpResponse($path),
+        ]);
+        $handlerStack = HandlerStack::create($mock);
+        $this->httpClient = new Client(['handler' => $handlerStack]);
     }
 
     /**
@@ -57,45 +58,8 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
      * @param string $path Relative path to the mock response file
      * @return Response
      */
-    public function getMockHttpResponse($path)
+    protected function getMockHttpResponse(string $path): Response
     {
-        if ($path instanceof Response) {
-            return $path;
-        }
-
-        $ref = new ReflectionObject($this);
-        $dir = dirname($ref->getFileName());
-
-        // if mock file doesn't exist, check parent directory
-        if (!file_exists($dir.'/Mock/'.$path) && file_exists($dir.'/../Mock/'.$path)) {
-            return MockPlugin::getMockFile($dir.'/../Mock/'.$path);
-        }
-
-        return MockPlugin::getMockFile($dir.'/Mock/'.$path);
-    }
-
-    /**
-     * Set a mock response from a mock file for the next client request.
-     *
-     * @param string $paths Path to the mock response file
-     * @return MockPlugin returns the mock plugin
-     */
-    public function setMockHttpResponse($paths)
-    {
-        $this->mockHttpRequests = array();
-        $that = $this;
-        $mock = new MockPlugin(null, true);
-        $this->getHttpClient()->getEventDispatcher()->removeSubscriber($mock);
-        $mock->getEventDispatcher()->addListener('mock.request', function(Event $event) use ($that) {
-            $that->addMockedHttpRequest($event['request']);
-        });
-
-        foreach ((array) $paths as $path) {
-            $mock->addResponse($this->getMockHttpResponse($path));
-        }
-
-        $this->getHttpClient()->getEventDispatcher()->addSubscriber($mock);
-
-        return $mock;
+        return new Response(200, [], file_get_contents(__DIR__ . "/Mock/$path"));
     }
 }

@@ -11,8 +11,6 @@
 
 namespace GovTalk\GiftAid;
 
-use GovTalk\GiftAid\Individual;
-
 class AuthorisedOfficial extends Individual
 {
     public function __construct($title, $name, $surname, $phone, $postcode)

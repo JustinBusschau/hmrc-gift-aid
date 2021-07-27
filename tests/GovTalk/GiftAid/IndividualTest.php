@@ -11,14 +11,12 @@
 
 namespace GovTalk\GiftAid;
 
-use GovTalk\GiftAid\TestCase;
-
 /**
  * The base class for all GovTalk\GiftAid\Individual tests
  */
 class IndividualTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

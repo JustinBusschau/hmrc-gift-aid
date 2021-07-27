@@ -11,8 +11,6 @@
 
 namespace GovTalk\GiftAid;
 
-use GovTalk\GiftAid\TestCase;
-
 /**
  * The base class for all GovTalk\GiftAid tests
  */
@@ -43,7 +41,7 @@ class GiftAidTest extends TestCase
      */
     private $gatewaySoftVersion;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -140,19 +138,6 @@ class GiftAidTest extends TestCase
          * Set parameter 5 to a valid path in order to log messages
          */
         $this->gaService = $this->setUpService();
-    }
-
-    private function setUpService()
-    {
-        return new GiftAid(
-            $this->gatewayUserID,
-            $this->gatewayUserPassword,
-            $this->gatewayVendorID,
-            $this->gatewaySoftware,
-            $this->gatewaySoftVersion,
-            true,
-            $this->getHttpClient()
-        );
     }
 
     public function testServiceCreation()
@@ -341,6 +326,8 @@ class GiftAidTest extends TestCase
     {
         $this->setMockHttpResponse('DeclarationResponsePoll.txt');
 
+
+
         $response = $this->gaService->declarationResponsePoll(
             'A19FA1A31BCB42D887EA323292AACD88',
             'https://secure.dev.gateway.gov.uk/poll'
@@ -375,5 +362,18 @@ class GiftAidTest extends TestCase
         );
 
         $this->assertTrue($response);
+    }
+
+    private function setUpService()
+    {
+        return new GiftAid(
+            $this->gatewayUserID,
+            $this->gatewayUserPassword,
+            $this->gatewayVendorID,
+            $this->gatewaySoftware,
+            $this->gatewaySoftVersion,
+            true,
+            $this->getHttpClient()
+        );
     }
 }
