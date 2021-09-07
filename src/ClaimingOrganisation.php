@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the GovTalk\GiftAid package
- *
- * (c) Justin Busschau
- *
- * For the full copyright and license information, please see the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace GovTalk\GiftAid;
 
 class ClaimingOrganisation
@@ -18,7 +9,7 @@ class ClaimingOrganisation
     private $regulator = '';
     private $regNo = '';
     private $hasConnectedCharities = false;
-    private $connectedCharities = array();
+    private $connectedCharities = [];
     private $useCommunityBuildings = false;
 
     public function __construct(
@@ -99,7 +90,7 @@ class ClaimingOrganisation
 
     public function clearConnectedCharities()
     {
-        $this->connectedCharities = array();
+        $this->connectedCharities = [];
     }
 
     public function getUseCommunityBuildings()

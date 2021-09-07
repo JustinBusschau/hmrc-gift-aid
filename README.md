@@ -2,10 +2,10 @@
 
 **A library for charities and CASCs to claim Gift Aid (including Small Donations) from HMRC**
 
-[![Build Status](https://travis-ci.org/JustinBusschau/hmrc-gift-aid.png?branch=master)](https://travis-ci.org/JustinBusschau/hmrc-gift-aid)
-[![Latest Stable Version](https://poser.pugx.org/justinbusschau/hmrc-gift-aid/version.png)](https://packagist.org/packages/justinbusschau/hmrc-gift-aid)
-[![Total Downloads](https://poser.pugx.org/justinbusschau/hmrc-gift-aid/d/total.png)](https://packagist.org/packages/justinbusschau/hmrc-gift-aid)
-[![License](https://poser.pugx.org/justinbusschau/hmrc-gift-aid/license.svg)](https://packagist.org/packages/justinbusschau/hmrc-gift-aid)
+[![Build Status](https://travis-ci.org/thebiggive/hmrc-gift-aid.png?branch=main)](https://travis-ci.org/thebiggive/hmrc-gift-aid)
+[![Latest Stable Version](https://poser.pugx.org/thebiggive/hmrc-gift-aid/version.png)](https://packagist.org/packages/thebiggive/hmrc-gift-aid)
+[![Total Downloads](https://poser.pugx.org/thebiggive/hmrc-gift-aid/d/total.png)](https://packagist.org/packages/thebiggive/hmrc-gift-aid)
+[![License](https://poser.pugx.org/thebiggive/hmrc-gift-aid/license.svg)](https://packagist.org/packages/thebiggive/hmrc-gift-aid)
 
 'Gift Aid' is a UK tax incentive that enables tax-effective giving by individuals to charities
 in the United Kingdom. Gift Aid increases the value of donations to charities and Community
@@ -22,7 +22,7 @@ it to your `composer.json` file:
 ```json
 {
     "require": {
-        "justinbusschau/hmrc-gift-aid": "0.*"
+        "thebiggive/hmrc-gift-aid": "^1.0"
     }
 }
 ```
@@ -101,11 +101,11 @@ claims. To obtain an ID, please see the
 [Charities Online Service Recognition Process](http://www.hmrc.gov.uk/softwaredevelopers/gift-aid-repayments.htm#5).
 
 ```php
-$vendor = array(
+$vendor = [
     'id' => '4321',
     'product' => 'ProductNameHere',
     'version' => '0.1.2'
-);
+];
 ```
 
 The `Authorised Official` is an individual within the organisation (Charity or CASC) that
@@ -115,7 +115,7 @@ and the user ID and password are required when submitting claims. The additional
 with the claim - name and contact details - must be consistent with that held by HMRC.
 
 ```php
-$authorised_official = array(
+$authorised_official = [
     'id' => '323412300001',
     'passwd' => 'testing1',
     'title' => 'Mr',
@@ -123,7 +123,7 @@ $authorised_official = array(
     'surname' => 'Muck',
     'phone' => '077 1234 5678',
     'postcode' => 'SW1A 1AA'
-);
+];
 ```
 
 Each Charity or CASC that is registered with HMRC will have two identifiers. The first is the
@@ -132,12 +132,12 @@ Each Charity or CASC that is registered with HMRC will have two identifiers. The
 need to know which regulator the charity is registered with.
 
 ```php
-$charity = array(
+$charity = [
     'name' => 'A charitible organisation',
     'id' => 'AB12345',
     'reg_no' => '2584789658',
     'regulator' => 'CCEW'
-);
+];
 ```
 
 Finally, you will need to build a list of all donations for which you want to claim a Gift Aid
@@ -145,8 +145,8 @@ repayment. For each donation you will also need to know the name and last known 
 donor.
 
 ```php
-$claim_items = array(
-    array(
+$claim_items = [
+    [
         'donation_date' => '2014-01-01',
         'title' => 'Mr',
         'first_name' => 'Jack',
@@ -154,8 +154,8 @@ $claim_items = array(
         'house_no' => '3',
         'postcode' => 'EC1A 2AB',
         'amount' => '123.45'
-    ),
-    array(
+    ],
+    [
         'donation_date' => '2014-01-01',
         'title' => 'Mrs',
         'first_name' => 'Josephine',
@@ -163,8 +163,8 @@ $claim_items = array(
         'house_no' => '3',
         'postcode' => 'EC1A 2AB',
         'amount' => '876.55'
-    )
-);
+    ],
+];
 ```
 
 And now that you have all the data you need, you can submit a claim.

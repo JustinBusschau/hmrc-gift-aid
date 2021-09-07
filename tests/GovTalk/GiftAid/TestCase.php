@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the GovTalk package
- *
- * (c) Justin Busschau
- *
- * For the full copyright and license information, please see the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace GovTalk\GiftAid;
 
 use GuzzleHttp\Client;
@@ -30,7 +21,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     public function getHttpClient(): Client
     {
         if ($this->httpClient === null) {
-            $this->httpClient = new Client();
+            // Default to a mock handler with an empty response queue.
+            $this->httpClient = new Client([
+                'handler' => HandlerStack::create(new MockHandler()),
+            ]);
         }
 
         return $this->httpClient;

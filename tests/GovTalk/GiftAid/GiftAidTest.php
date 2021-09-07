@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the GovTalk\GiftAid package
- *
- * (c) Justin Busschau
- *
- * For the full copyright and license information, please see the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace GovTalk\GiftAid;
 
 /**
@@ -81,8 +72,8 @@ class GiftAidTest extends TestCase
         /**
          * A test claim
          */
-        $this->claim = array(
-            array(
+        $this->claim = [
+            [
                 'donation_date' => '2013-04-07',
                 'title' => 'Mrs',
                 'first_name' => 'Mary',
@@ -92,8 +83,8 @@ class GiftAidTest extends TestCase
                 'overseas' => false,
                 'amount' => 500.00,
                 'sponsored' => true
-            ),
-            array(
+            ],
+            [
                 'donation_date' => '2013-04-15',
                 'title' => null,
                 'first_name' => 'Jim',
@@ -102,8 +93,8 @@ class GiftAidTest extends TestCase
                 'postcode' => null,
                 'overseas' => true,
                 'amount' => 10.00
-            ),
-            array(
+            ],
+            [
                 'donation_date' => '2013-04-17',
                 'title' => null,
                 'first_name' => 'Bill',
@@ -112,8 +103,8 @@ class GiftAidTest extends TestCase
                 'postcode' => 'BA23 9CD',
                 'overseas' => false,
                 'amount' => 2.50
-            ),
-            array(
+            ],
+            [
                 'donation_date' => '2013-04-20',
                 'title' => null,
                 'first_name' => 'Bob',
@@ -122,27 +113,26 @@ class GiftAidTest extends TestCase
                 'postcode' => 'BA23 9CD',
                 'overseas' => false,
                 'amount' => 12.00
-            ),
-            array(
+            ],
+            [
                 'donation_date' => '2013-04-20',
                 'amount' => 1000.00,
                 'aggregation' => 'Aggregated donation of 200 x �5 payments from members'
-            )
-        );
+            ]
+        ];
 
         /**
          * The following call sets up the service object used to interact with the
-         * Government Gateway. Setting parameter 4 to null will force the test to
+         * Government Gateway. Setting parameter 7 to null will force the test to
          * use the httpClient created on the fly within the GovTalk class and may
          * also effectively disable mockability.
-         * Set parameter 5 to a valid path in order to log messages
          */
         $this->gaService = $this->setUpService();
     }
 
     public function testServiceCreation()
     {
-        $this->gaService->setAgentDetails('company', array('ln1','ln2','pc'), array('07123456789'));
+        $this->gaService->setAgentDetails('company', ['ln1','ln2','pc'], ['07123456789']);
         $this->assertInstanceOf('GovTalk\GiftAid\GiftAid', $this->gaService);
     }
 
@@ -242,8 +232,8 @@ class GiftAidTest extends TestCase
 
     public function testAdjustments()
     {
-        $clear = array('amount' => 0.00, 'reason' => '');
-        $adjust = array('amount' => 16.47, 'reason' => 'Refunds issued on previous donations.');
+        $clear = ['amount' => 0.00, 'reason' => ''];
+        $adjust = ['amount' => 16.47, 'reason' => 'Refunds issued on previous donations.'];
 
         $this->gaService->setGaAdjustment(
             $adjust['amount'],
@@ -257,8 +247,8 @@ class GiftAidTest extends TestCase
 
     public function testGasds()
     {
-        $clear = array('amount' => 0.00, 'reason' => '');
-        $adjust = array('amount' => 16.47, 'reason' => 'Refunds issued on previous GASDS donations.');
+        $clear = ['amount' => 0.00, 'reason' => ''];
+        $adjust = ['amount' => 16.47, 'reason' => 'Refunds issued on previous GASDS donations.'];
 
         $this->gaService->setGasdsAdjustment(
             $adjust['amount'],
@@ -364,7 +354,7 @@ class GiftAidTest extends TestCase
         $this->assertTrue($response);
     }
 
-    private function setUpService()
+    private function setUpService(): GiftAid
     {
         return new GiftAid(
             $this->gatewayUserID,

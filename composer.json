@@ -1,9 +1,11 @@
 {
-    "name": "justinbusschau/hmrc-gift-aid",
+    "name": "thebiggive/hmrc-gift-aid",
     "type": "library",
     "description": "A library for charities and CASCs to claim Gift Aid (including Small Donations) from HMRC",
-    "homepage": "https://github.com/justinbusschau/hmrc-gift-aid",
-    "license": "GPL-3.0-only",
+    "homepage": "https://github.com/thebiggive/hmrc-gift-aid",
+    "license": "GPL-3.0-or-later",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "authors": [
         {
             "name": "Jonathon Wardman - Fubra Limited",
@@ -17,6 +19,11 @@
         {
             "name": "Justin Busschau",
             "email": "justin.busschau@gmail.com"
+        },
+        {
+            "name": "Noel Light-Hilary",
+            "email": "noel@thebiggive.org.uk",
+            "homepage": "https://noellh.com/"
         }
     ],
     "autoload": {
@@ -25,7 +32,7 @@
     "config": {
         "optimize-autoloader": true,
         "platform": {
-            "php": "7.4.21"
+            "php": "7.4.23"
         },
         "sort-packages": true
     },
@@ -33,8 +40,7 @@
         "php": "^7.4 || ^8.0",
         "ext-dom": "*",
         "ext-xmlwriter": "*",
-        "justinbusschau/php-govtalk": "~0.2.1",
-        "guzzlehttp/guzzle": "^7.3.0"
+        "thebiggive/php-govtalk": "^1.0.0-beta"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5.7",
