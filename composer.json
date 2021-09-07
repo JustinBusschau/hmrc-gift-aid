@@ -49,6 +49,6 @@
     },
     "scripts": {
         "lint:check": "phpcs --standard=PSR2 src",
-        "test": "phpunit --coverage-text"
+        "test": "XDEBUG_MODE=coverage phpunit --coverage-text"
     }
 }

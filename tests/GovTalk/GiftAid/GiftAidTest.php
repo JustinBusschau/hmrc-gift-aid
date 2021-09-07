@@ -201,6 +201,12 @@ class GiftAidTest extends TestCase
     {
         $this->gaService->addCbcd('bldg', 'address', 'postcode', '2014', 12.34);
         $this->gaService->resetCbcd();
+
+        // Existing test had no assertions. For now, assume the point is just to
+        // ensure the private methods used upstream run without crashes? Preferably,
+        // this would probably eventually be replaced with a test that covers the
+        // whole XML message build, instead of this very narrow piece in isolation.
+        $this->addToAssertionCount(1);
     }
 
     public function testClaimToDate()
@@ -282,6 +288,7 @@ class GiftAidTest extends TestCase
     public function testClaimSubmissionAuthFailure()
     {
         $this->setMockHttpResponse('SubmitAuthFailureResponse.txt');
+        $this->gaService = $this->setUpService(); // Use client w/ mock queue.
 
         $this->gaService->setAuthorisedOfficial($this->officer);
         $this->gaService->setClaimingOrganisation($this->claimant);
@@ -299,6 +306,7 @@ class GiftAidTest extends TestCase
     public function testClaimSubmissionAck()
     {
         $this->setMockHttpResponse('SubmitAckResponse.txt');
+        $this->gaService = $this->setUpService(); // Use client w/ mock queue.
 
         $this->gaService->setAuthorisedOfficial($this->officer);
         $this->gaService->setClaimingOrganisation($this->claimant);
@@ -315,8 +323,7 @@ class GiftAidTest extends TestCase
     public function testDeclarationResponsePoll()
     {
         $this->setMockHttpResponse('DeclarationResponsePoll.txt');
-
-
+        $this->gaService = $this->setUpService(); // Use client w/ mock queue.
 
         $response = $this->gaService->declarationResponsePoll(
             'A19FA1A31BCB42D887EA323292AACD88',
@@ -332,6 +339,7 @@ class GiftAidTest extends TestCase
     public function testRequestClaimData()
     {
         $this->setMockHttpResponse('RequestClaimDataResponse.txt');
+        $this->gaService = $this->setUpService(); // Use client w/ mock queue.
 
         $this->gaService->setAuthorisedOfficial($this->officer);
         $this->gaService->setClaimingOrganisation($this->claimant);
@@ -343,6 +351,7 @@ class GiftAidTest extends TestCase
     public function testDeleteRequest()
     {
         $this->setMockHttpResponse('DeleteResponse.txt');
+        $this->gaService = $this->setUpService(); // Use client w/ mock queue.
 
         $this->gaService->setAuthorisedOfficial($this->officer);
         $this->gaService->setClaimingOrganisation($this->claimant);
