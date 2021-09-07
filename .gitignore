@@ -5,6 +5,3 @@ phpunit.xml
 .phpunit.result.cache
 
 .idea/
-.phpunit.result.cache
-
-.idea/
