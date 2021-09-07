@@ -1,24 +1,13 @@
 <?php
 
-/*
- * This file is part of the GovTalk\GiftAid package
- *
- * (c) Justin Busschau
- *
- * For the full copyright and license information, please see the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace GovTalk\GiftAid;
-
-use GovTalk\GiftAid\TestCase;
 
 /**
  * The base class for all GovTalk\ClaimingOrganisation tests
  */
 class ClaimingOrganisationTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -44,22 +33,22 @@ class ClaimingOrganisationTest extends TestCase
         $this->claimant->setHmrcRef('CD67890');
         $this->claimant->setRegulator('OSCR');
         $this->claimant->setRegNo('3695897469');
-        
+
         $this->assertEquals($this->claimant->getName(), 'Another Fine Bunch');
         $this->assertEquals($this->claimant->getHmrcRef(), 'CD67890');
         $this->assertEquals($this->claimant->getRegulator(), 'OSCR');
         $this->assertEquals($this->claimant->getRegNo(), '3695897469');
     }
-    
+
     public function testConnectedCharities()
     {
         $this->claimant->setHasConnectedCharities(true);
         $this->assertTrue($this->claimant->getHasConnectedCharities());
-        
+
         // non-bool values are treated as false
         $this->claimant->setHasConnectedCharities('0');
         $this->assertFalse($this->claimant->getHasConnectedCharities());
-        
+
         $org = new ClaimingOrganisation(
             'Giving Is Good',
             'EF24680',
@@ -68,19 +57,19 @@ class ClaimingOrganisationTest extends TestCase
         );
 
         $this->claimant->addConnectedCharity($org);
-        
+
         $org_a = $this->claimant->getConnectedCharities();
         $this->assertEquals(count($org_a), 1);
-        
+
         $org->setName('Greater Give');
         $org->setHmrcRef('GH13579');
         $org->setRegulator('OSCR');
         $org->setRegNo('6542147854');
         $this->claimant->addConnectedCharity($org);
-        
+
         $org_a = $this->claimant->getConnectedCharities();
         $this->assertEquals(count($org_a), 2);
-        
+
         $this->claimant->clearConnectedCharities();
         $org_a = $this->claimant->getConnectedCharities();
         $this->assertEquals(count($org_a), 0);

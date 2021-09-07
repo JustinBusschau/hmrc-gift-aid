@@ -1,22 +1,13 @@
 <?php
 
-/*
- * This file is part of the GovTalk\GiftAid package
- *
- * (c) Justin Busschau
- *
- * For the full copyright and license information, please see the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace GovTalk\GiftAid;
 
-use XMLWriter;
 use DOMDocument;
-use Guzzle\Http\ClientInterface;
 use GovTalk\GovTalk;
-use GovTalk\GiftAid\Individual;
-use GovTalk\GiftAid\AuthorisedOfficial;
+use GuzzleHttp\Client;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+use XMLWriter;
 
 /**
  * HMRC Gift Aid API client.  Extends the functionality provided by the
@@ -73,7 +64,7 @@ class GiftAid extends GovTalk
      *
      * @var string
      */
-    private $agentDetails = array();
+    private $agentDetails = [];
 
     /* System / internal variables. */
 
@@ -122,20 +113,25 @@ class GiftAid extends GovTalk
      * Details of the Community buildings used
      */
     private $haveCbcd   = false;
-    private $cbcdBldg   = array();
-    private $cbcdAddr   = array();
-    private $cbcdPoCo   = array();
-    private $cbcdYear   = array();
-    private $cbcdAmount = array();
+    private $cbcdBldg   = [];
+    private $cbcdAddr   = [];
+    private $cbcdPoCo   = [];
+    private $cbcdYear   = [];
+    private $cbcdAmount = [];
 
     /**
      * Details for claims relating to the Small Donations Scheme
      */
     private $haveGasds       = false;
-    private $gasdsYear       = array();
-    private $gasdsAmount     = array();
+    private $gasdsYear       = [];
+    private $gasdsAmount     = [];
     private $gasdsAdjustment = 0.00;
     private $gasdsAdjReason  = '';
+
+    /**
+     * PSR-3 logger – defaulting to `NullLogger`.
+     */
+    private ?LoggerInterface $logger = null;
 
     /**
      * The class is instantiated with the 'SenderID' and password issued to the
@@ -149,7 +145,6 @@ class GiftAid extends GovTalk
      * @param $software_version   The version number of the software generating this route entry.
      * @param $test               TRUE if in test mode, else (default) FALSE
      * @param $httpClient         The Guzzle HTTP Client to use for connections to the endpoint - null for default
-     * @param $messageLogLocation Where to log messages - null for no logging
      */
     public function __construct(
         $sender_id,
@@ -158,8 +153,7 @@ class GiftAid extends GovTalk
         $software_name,
         $software_version,
         $test = false,
-        ClientInterface $httpClient = null,
-        $messageLogLocation = null
+        Client $httpClient = null
     ) {
         $test = is_bool($test) ? $test : false;
 
@@ -174,11 +168,16 @@ class GiftAid extends GovTalk
             $endpoint,
             $sender_id,
             $password,
-            $httpClient,
-            $messageLogLocation
+            $httpClient
         );
 
         $this->setMessageAuthentication('clear');
+
+        if (!$this->logger) {
+            $this->logger = new NullLogger();
+        }
+
+        $this->setLogger($this->logger);
     }
 
     /**
@@ -269,7 +268,7 @@ class GiftAid extends GovTalk
 
     public function getGaAdjustment()
     {
-        return array('amount' => $this->gaAdjustment, 'reason' => $this->gaAdjReason);
+        return ['amount' => $this->gaAdjustment, 'reason' => $this->gaAdjReason];
     }
 
     public function getConnectedCharities()
@@ -357,11 +356,11 @@ class GiftAid extends GovTalk
     public function resetCbcd()
     {
         $this->haveCbcd   = false;
-        $this->cbcdBldg   = array();
-        $this->cbcdAddr   = array();
-        $this->cbcdPoCo   = array();
-        $this->cbcdYear   = array();
-        $this->cbcdAmount = array();
+        $this->cbcdBldg   = [];
+        $this->cbcdAddr   = [];
+        $this->cbcdPoCo   = [];
+        $this->cbcdYear   = [];
+        $this->cbcdAmount = [];
     }
 
     public function addGasds($year, $amount)
@@ -374,8 +373,8 @@ class GiftAid extends GovTalk
     public function resetGasds()
     {
         $this->haveGasds   = false;
-        $this->gasdsYear   = array();
-        $this->gasdsAmount = array();
+        $this->gasdsYear   = [];
+        $this->gasdsAmount = [];
     }
 
     public function setGasdsAdjustment($amount, $reason)
@@ -386,7 +385,7 @@ class GiftAid extends GovTalk
 
     public function getGasdsAdjustment()
     {
-        return array('amount' => $this->gasdsAdjustment, 'reason' => $this->gasdsAdjReason);
+        return ['amount' => $this->gasdsAdjustment, 'reason' => $this->gasdsAdjReason];
     }
 
     /**
@@ -556,7 +555,7 @@ class GiftAid extends GovTalk
 
         $package->endElement(); # GASDS
 
-        $otherInfo = array();
+        $otherInfo = [];
         if (!empty($this->gasdsAdjustment)) {
             $otherInfo[] = $this->gasdsAdjReason;
         }
@@ -669,7 +668,7 @@ class GiftAid extends GovTalk
             $returnable                  = $this->getResponseEndpoint();
             $returnable['correlationid'] = $this->getResponseCorrelationId();
         } else {
-            $returnable = array('errors' => $this->getResponseErrors());
+            $returnable = ['errors' => $this->getResponseErrors()];
         }
         $returnable['claim_data_xml']     = $claimDataXml;
         $returnable['submission_request'] = $this->fullRequestString;
@@ -703,14 +702,14 @@ class GiftAid extends GovTalk
         if ($this->sendMessage() && ($this->responseHasErrors() === false)) {
             $returnable = $this->getResponseEndpoint();
             foreach ($this->fullResponseObject->Body->StatusReport->StatusRecord as $node) {
-                $array = array();
+                $array = [];
                 foreach ($node->children() as $child) {
                     $array[$child->getName()] = (string) $child;
                 }
                 $returnable['statusRecords'][] = $array;
             }
         } else {
-            $returnable = array('errors' => $this->getResponseErrors());
+            $returnable = ['errors' => $this->getResponseErrors()];
         }
         $returnable['submission_request'] = $this->fullRequestString;
 
@@ -768,14 +767,13 @@ class GiftAid extends GovTalk
             $this->setMessageBody('');
             if ($this->sendMessage() && ($this->responseHasErrors() === false)) {
                 $messageQualifier = (string) $this->fullResponseObject->Header->MessageDetails->Qualifier;
-                if ($messageQualifier == 'response') {
-                    return array(
+                if ($messageQualifier === 'response') {
+                    return [
                         'correlationid'       => $correlationId,
                         'submission_request'  => $this->fullRequestString,
                         'submission_response' => $this->fullResponseString
-                    );
-
-                } elseif ($messageQualifier == 'acknowledgement') {
+                    ];
+                } elseif ($messageQualifier === 'acknowledgement') {
                     $returnable                       = $this->getResponseEndpoint();
                     $returnable['correlationid']      = $this->getResponseCorrelationId();
                     $returnable['submission_request'] = $this->fullRequestString;
@@ -786,10 +784,10 @@ class GiftAid extends GovTalk
                 }
             } else {
                 if ($this->responseHasErrors()) {
-                    return array(
+                    return [
                         'errors'             => $this->getResponseErrors(),
                         'fullResponseString' => $this->fullResponseString
-                    );
+                    ];
                 }
 
                 return false;
@@ -849,7 +847,7 @@ class GiftAid extends GovTalk
                 $xmlDom = new DOMDocument;
 
                 if ($namespaces !== null && is_array($namespaces)) {
-                    $namespaceString = array();
+                    $namespaceString = [];
                     foreach ($namespaces as $key => $value) {
                         if ($key !== '') {
                             $namespaceString[] = 'xmlns:' . $key . '="' . $value . '"';
@@ -892,11 +890,11 @@ class GiftAid extends GovTalk
         if (!$has_gt_errors) {
             // lay out the GA errors
             foreach ($this->fullResponseObject->Body->ErrorResponse->Error as $gaError) {
-                $govTalkErrors['business'][] = array(
+                $govTalkErrors['business'][] = [
                     'number'   => (string) $gaError->Number,
                     'text'     => (string) $gaError->Text,
                     'location' => (string) $gaError->Location
-                );
+                ];
             }
         }
 
