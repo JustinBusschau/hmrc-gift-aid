@@ -146,6 +146,8 @@ class GiftAid extends GovTalk
      * @param bool      $test               TRUE if in test mode, else (default) FALSE
      * @param ?Client   $httpClient         The Guzzle HTTP Client to use for connections to the endpoint -
      *                                      null for default.
+     * @param ?string   $customTestEndpoint Use to override the dev endpoint, e.g. for the Local Test
+     *                                      Service use http://localhost:5665/LTS/LTSPostServlet
      */
     public function __construct(
         $sender_id,
@@ -154,11 +156,12 @@ class GiftAid extends GovTalk
         $software_name,
         $software_version,
         $test = false,
-        ?Client $httpClient = null
+        ?Client $httpClient = null,
+        ?string $customTestEndpoint = null
     ) {
         $test = is_bool($test) ? $test : false;
 
-        $endpoint = $this->getEndpoint($test);
+        $endpoint = $this->getEndpoint($test, $customTestEndpoint);
 
         $this->setProductUri($route_uri);
         $this->setProductName($software_name);
@@ -182,25 +185,23 @@ class GiftAid extends GovTalk
     }
 
     /**
-     * Find out which endpoint to use
+     * Find out which endpoint to use.
      *
-     * @param $test TRUE if in test mode, else (default) FALSE
-     */
-    public function getEndpoint($test = false)
-    {
-        $test = is_bool($test) ? $test : false;
-
-        return $test ? $this->devEndpoint : $this->liveEndpoint;
-    }
-
-    /**
-     * Override the dev endpoint, e.g. for the Local Test Service use http://localhost:5665/LTS/LTSPostServlet
+     * @param bool      $test TRUE if in test mode, else (default) FALSE
+     * @param ?string   $customTestEndpoint Use to override the dev endpoint, e.g. for the Local Test
+     *                                      Service use http://localhost:5665/LTS/LTSPostServlet
      * @link https://www.gov.uk/government/publications/local-test-service-and-lts-update-manager
      * @link https://github.com/comicrelief/gail/blob/e80a0793b5dac8b9c8e037e409a398eaf79342d3/Documents/technical_guidance.md
      */
-    public function setDevEndpoint(string $endpoint): void
+    public function getEndpoint($test = false, ?string $customTestEndpoint = null): string
     {
-        $this->devEndpoint = $endpoint;
+        $test = is_bool($test) ? $test : false;
+
+        if ($test && $customTestEndpoint) {
+            return $customTestEndpoint;
+        }
+
+        return $test ? $this->devEndpoint : $this->liveEndpoint;
     }
 
     /**
