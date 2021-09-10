@@ -138,13 +138,14 @@ class GiftAid extends GovTalk
      * claiming charity by HMRC. Also we need to know whether messages for
      * this session are to be sent to the test or live environment
      *
-     * @param $sender_id          The govTalk Sender ID as provided by HMRC
-     * @param $password           The govTalk password as provided by HMRC
-     * @param $route_uri          The URI of the owner of the process generating this route entry.
-     * @param $software_name      The name of the software generating this route entry.
-     * @param $software_version   The version number of the software generating this route entry.
-     * @param $test               TRUE if in test mode, else (default) FALSE
-     * @param $httpClient         The Guzzle HTTP Client to use for connections to the endpoint - null for default
+     * @param string    $sender_id          The govTalk Sender ID as provided by HMRC
+     * @param string    $password           The govTalk password as provided by HMRC
+     * @param string    $route_uri          The URI of the owner of the process generating this route entry.
+     * @param string    $software_name      The name of the software generating this route entry.
+     * @param string    $software_version   The version number of the software generating this route entry.
+     * @param bool      $test               TRUE if in test mode, else (default) FALSE
+     * @param ?Client   $httpClient         The Guzzle HTTP Client to use for connections to the endpoint -
+     *                                      null for default.
      */
     public function __construct(
         $sender_id,
@@ -153,7 +154,7 @@ class GiftAid extends GovTalk
         $software_name,
         $software_version,
         $test = false,
-        Client $httpClient = null
+        ?Client $httpClient = null
     ) {
         $test = is_bool($test) ? $test : false;
 
@@ -190,6 +191,16 @@ class GiftAid extends GovTalk
         $test = is_bool($test) ? $test : false;
 
         return $test ? $this->devEndpoint : $this->liveEndpoint;
+    }
+
+    /**
+     * Override the dev endpoint, e.g. for the Local Test Service use http://localhost:5665/LTS/LTSPostServlet
+     * @link https://www.gov.uk/government/publications/local-test-service-and-lts-update-manager
+     * @link https://github.com/comicrelief/gail/blob/e80a0793b5dac8b9c8e037e409a398eaf79342d3/Documents/technical_guidance.md
+     */
+    public function setDevEndpoint(string $endpoint): void
+    {
+        $this->devEndpoint = $endpoint;
     }
 
     /**

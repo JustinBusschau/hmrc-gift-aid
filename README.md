@@ -45,9 +45,9 @@ From the introduction to the [IRMark Specification](http://www.hmrc.gov.uk/softw
 > a mechanism to aid a taxpayer to prove whether or not the submission held by IR is indeed the
 > submission they sent.
 
-That is a very roundabout way of saying the XML that you submit must include a signiture of some
+That is a very roundabout way of saying the XML that you submit must include a signature of some
 sort. The signature can be used to prove that what the HMRC received is actually what you
-intended to send. HMRC will, in their turn, include a similar signiture in any responses they
+intended to send. HMRC will, in their turn, include a similar signature in any responses they
 send to you. In the case of submissions to the HMRC Government Gateway, this signature is the
 IRmark (pronounced IR Mark).
 
@@ -301,8 +301,7 @@ foreach ($response['statusRecords'] as $status_record) {
 
 For more information on the Gift Aid scheme as it applies to Charities and Community Amateur
 Sports Clubs, and for information on Online Claim Submission, please see the
-[HMRC](http://www.hmrc.gov.uk/charities/) website.
+[Gov](https://www.gov.uk/charities-and-tax) website.
 
 For information on developing and testing using HMRC Document Submission Protocol, please see
-[HMRC Software Developers](http://www.hmrc.gov.uk/softwaredevelopers/gift-aid-repayments.htm).
-
+[Charities repayment claims support for software developers](https://www.gov.uk/government/collections/charities-online-support-for-software-developers).
