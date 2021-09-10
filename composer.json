@@ -40,7 +40,7 @@
         "php": "^7.4 || ^8.0",
         "ext-dom": "*",
         "ext-xmlwriter": "*",
-        "thebiggive/php-govtalk": "^1.0.0-beta"
+        "thebiggive/php-govtalk": "^1.0.0-beta1"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5.7",
