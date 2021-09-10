@@ -117,7 +117,7 @@ class GiftAidTest extends TestCase
             [
                 'donation_date' => '2013-04-20',
                 'amount' => 1000.00,
-                'aggregation' => 'Aggregated donation of 200 x �5 payments from members'
+                'aggregation' => 'Aggregated donation of 200 x £5 payments from members'
             ]
         ];
 
